@@ -8,9 +8,12 @@
 #ifndef TOPCONF_H_
     #define TOPCONF_H_
 
+    #include <ncurses.h> /* For mvprintw */
+
     #define TOP_UPDATE 3000 /* Update time in ms */
 
 int header_line0(char const *line, int x);
+int header_line1(char const *line, int x);
 
 /* Default function for header */
 static inline int default_func(char const *line, int x)
@@ -30,7 +33,7 @@ static struct {
     },
     {
         "Tasks: %d total, %d running, %d sleeping, %d stopped, %d zombie",
-        default_func
+        header_line1
     },
     {
         "%%Cpu(s): %.1f us, %.1f sy, %.1f ni, %.1f id, %.1f wa, "
@@ -46,6 +49,12 @@ static struct {
         default_func
     },
 };
+
+// Each process information parsed.
+typedef struct {
+    int pid;
+    char status;
+} processinfo_t;
 
 /* How many header lines there is. */
 static int const HEADER_FORMAT_LEN =

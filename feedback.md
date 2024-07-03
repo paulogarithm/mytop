@@ -15,5 +15,5 @@
 | main ncurse loop     | 13h55  | 14h15  | 12m    |
 | get load average     | 14h22  | 15h01  | 5m     |
 | get time & users     | 15h02  | 15h29  | 7m     |
-|                      |        |        |        |
+|                      | 15h42  |        |        |
 |                      |        |        |        |

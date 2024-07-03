@@ -10,13 +10,16 @@ CC ?= gcc
 
 CFLAGS += -Wall -Wextra -Wpedantic
 CPPFLAGS += -iquote./src
-LDLIBS += -lncurses
+LDLIBS += -L. -lncurses -lvec
 DEBUG ?= non
 BONUS ?= non
 
 LIBPATHS = src/vec
 
-SRC = src/tbase.c src/tloop.c src/tupdate.c src/tinput.c src/header/line0.c
+SRC = src/tbase.c src/tloop.c src/tupdate.c src/tinput.c src/tparser.c \
+	src/header/line0.c \
+	src/header/line1.c
+
 MAIN = src/main.c
 
 BONUSSRC =
