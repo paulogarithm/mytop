@@ -17,9 +17,11 @@ void top_loop(void)
     do {
         refresh();
         input = getch();
-        if (input == ERR)
+        if (input == ERR) {
             top_updatescreen();
-        else if (top_treatinput(input) == -1)
+            continue;
+        }
+        if (top_treatinput(input) == -1)
             break;
     } while (1);
 }
