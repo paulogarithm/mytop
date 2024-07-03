@@ -9,8 +9,10 @@
 
 int main(void)
 {
+    int res = 0;
+
     top_start();
-    top_loop();
+    res = top_loop();
     top_end();
-    return 0;
+    return res * (-84);
 }

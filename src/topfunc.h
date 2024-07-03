@@ -20,7 +20,7 @@ void top_end(void);
 int top_updatescreen(void);
 
 /* The main loop. */
-void top_loop(void);
+int top_loop(void);
 
 /* Treat the 'in' input. */
 int top_treatinput(int in);

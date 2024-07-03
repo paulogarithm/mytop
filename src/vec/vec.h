@@ -41,7 +41,7 @@ int vec_pushptr(void *vecptr, void *elem);
 int vec_pushnum(void *vecptr, __int128_t elem);
 
 /* Push the value stored in the ref pointer. */
-int vec_pushref(void *vecptr, void *ref);
+int vec_pushref(void *vecptr, void const *ptr);
 
 /* Get the number of elements in a vector. */
 size_t vec_nmemb(void const *vec);
@@ -53,7 +53,7 @@ size_t vec_maxmemb(void const *ptr);
 void *vec_todata(void *vec);
 
 /* Push an entire segment of data in your vector. */
-int vec_pushdata(void *vecptr, void *data, size_t datanmemb);
+int vec_pushdata(void *vecptr, void const *data, size_t datanmemb);
 
 /* Like strcmp but with vectors. */
 int vec_cmp(void const *a, void const *b);

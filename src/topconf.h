@@ -37,7 +37,7 @@ static struct {
     },
     {
         "%%Cpu(s): %.1f us, %.1f sy, %.1f ni, %.1f id, %.1f wa, "
-            "%.1f hi, %.1f si, %.1f st",
+        "%.1f hi, %.1f si, %.1f st",
         default_func
     },
     {

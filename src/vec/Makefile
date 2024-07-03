@@ -48,8 +48,8 @@ re: fclean all
 
 tests_run: clean
 	@echo tests
-	# $(CC) -o $(TESTBIN) $(addprefix $(TESTWHERE),$(TESTS)) $(SRC) $(CPPFLAGS) \
-	# 	 --coverage -lcriterion -lgcov $(LDFLAGS) $(LDLIBS)
+	# $(CC) -o $(TESTBIN) $(addprefix $(TESTWHERE),$(TESTS)) $(SRC) \
+	# 	 $(CPPFLAGS) --coverage -lcriterion -lgcov $(LDFLAGS) $(LDLIBS)
 	# -./$(TESTBIN)
 
 .PHONY: re fclean clean all tests_run

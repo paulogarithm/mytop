@@ -11,7 +11,7 @@
 
 #include "vec.h"
 
-int vec_pushref(void *vecptr, void *ptr)
+int vec_pushref(void *vecptr, void const *ptr)
 {
     vecmeta_t *meta = (*(vecmeta_t **)vecptr) - 1;
     char *start = *(void **)vecptr;
@@ -40,11 +40,11 @@ int vec_pushptr(void *vecptr, void *elem)
     return vec_pushnum(vecptr, (uintptr_t)elem);
 }
 
-int vec_pushdata(void *vecptr, void *data, size_t datanmemb)
+int vec_pushdata(void *vecptr, void const *data, size_t datanmemb)
 {
     vecmeta_t *meta = NULL;
     int res = 0;
-    char *ptr = data;
+    char const *ptr = data;
 
     for (size_t n = 0; n < datanmemb; ++n) {
         res = vec_pushref(vecptr, ptr);

@@ -9,13 +9,13 @@
 
 #include "topfunc.h"
 
-void top_loop(void)
+int top_loop(void)
 {
     int input = 0;
     int res = 0;
 
-    top_updatescreen();
-    do {
+    res = top_updatescreen();
+    while (res != -1) {
         refresh();
         input = getch();
         if (input == ERR) {
@@ -24,5 +24,6 @@ void top_loop(void)
         }
         if (top_treatinput(input) == -1)
             break;
-    } while (res != -1);
+    }
+    return res;
 }
