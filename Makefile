@@ -14,6 +14,8 @@ LDLIBS += -lncurses
 DEBUG ?= non
 BONUS ?= non
 
+LIBPATHS = src/vec
+
 SRC = src/tbase.c src/tloop.c src/tupdate.c src/tinput.c src/header/line0.c
 MAIN = src/main.c
 
@@ -31,16 +33,25 @@ ifneq ($(BONUS),non)
 	SRC += $(BONUSSRC)
 endif
 
+define dolibs
+	for l in $(LIBPATHS); do \
+		DEBUG=$(DEBUG) BONUS=$(BONUS) make -C $$l $1; \
+	done
+endef
+
 all: $(BIN)
 
 $(BIN): $(OBJS) $(MAINOBJ)
+	$(call dolibs, all)
 	$(CC) $(CPPFLAGS) $(MAINOBJ) $(OBJS) $(LDLIBS) -o $(BIN)
 
 clean:
+	$(call dolibs, clean)
 	$(RM) $(OBJS)
 	$(RM) $(MAINOBJ)
 
 fclean: clean
+	$(call dolibs, fclean)
 	$(RM) $(BIN)
 
 re: fclean all

@@ -60,7 +60,7 @@ static int get_currenttime(char **bufptr)
     return 0;
 }
 
-int header_line0(char const *line)
+int header_line0(char const *line, int x)
 {
     char *buf = NULL;
     double arr[3] = { 0.0 };
@@ -69,7 +69,7 @@ int header_line0(char const *line)
     if (get_loadavg(arr) == -1 || get_nbusers(&nbusers) == -1
     || get_currenttime(&buf) == -1)
         return -1;
-    (void)mvprintw(0, 0, line, buf, 0, 0, nbusers, arr[0], arr[1], arr[2]);
+    (void)mvprintw(x, 0, line, buf, 0, 0, nbusers, arr[0], arr[1], arr[2]);
     free(buf);
     return 0;
 }

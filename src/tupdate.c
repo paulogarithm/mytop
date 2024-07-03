@@ -15,7 +15,7 @@ static int display_header_lines(void)
     int res = 0;
 
     for (int n = 0; n < HEADER_FORMAT_LEN && res != -1; ++n)
-        res = HEADER_FORMAT[n].f(HEADER_FORMAT[n].s);
+        res = HEADER_FORMAT[n].f(HEADER_FORMAT[n].s, n);
     return res;
 }
 
