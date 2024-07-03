@@ -8,8 +8,18 @@
 #include <ncurses.h>
 
 #include "topfunc.h"
+#include "topconf.h"
 
-void top_updatescreen(void)
+static int display_header_lines(void)
 {
-    mvprintw(0, 0, "hello world\n");
+    int res = 0;
+
+    for (int n = 0; n < HEADER_FORMAT_LEN && res != -1; ++n)
+        res = HEADER_FORMAT[n].f(HEADER_FORMAT[n].s);
+    return res;
+}
+
+int top_updatescreen(void)
+{
+    return display_header_lines();
 }

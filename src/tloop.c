@@ -12,16 +12,17 @@
 void top_loop(void)
 {
     int input = 0;
+    int res = 0;
 
     top_updatescreen();
     do {
         refresh();
         input = getch();
         if (input == ERR) {
-            top_updatescreen();
+            res = top_updatescreen();
             continue;
         }
         if (top_treatinput(input) == -1)
             break;
-    } while (1);
+    } while (res != -1);
 }

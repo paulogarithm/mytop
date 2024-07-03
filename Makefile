@@ -9,12 +9,12 @@ BIN = my_top
 CC ?= gcc
 
 CFLAGS += -Wall -Wextra -Wpedantic
-CPPFLAGS += -iquote./include
+CPPFLAGS += -iquote./src
 LDLIBS += -lncurses
 DEBUG ?= non
 BONUS ?= non
 
-SRC = src/tbase.c src/tloop.c src/tupdate.c src/tinput.c
+SRC = src/tbase.c src/tloop.c src/tupdate.c src/tinput.c src/header/line0.c
 MAIN = src/main.c
 
 BONUSSRC =

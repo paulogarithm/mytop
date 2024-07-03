@@ -15,7 +15,7 @@ void top_start(void);
 void top_end(void);
 
 /* Update the screen. */
-void top_updatescreen(void);
+int top_updatescreen(void);
 
 /* The main loop. */
 void top_loop(void);
