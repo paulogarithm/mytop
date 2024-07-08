@@ -17,3 +17,11 @@
 | get time & users     | 15h02  | 15h29  | 7m     |
 |                      | 15h42  |        |        |
 |                      |        |        |        |
+
+
+## Conseils
+
+Pour ligne 3
+- sysconf _SC_CLK_TIME ou un truc comme ca
+- sauvegarder les valeurs
+- les soustraires / diviser

@@ -11,6 +11,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <pwd.h>
+#include <sys/stat.h>
 
 #include "vec/vec.h"
 #include "topconf.h"
@@ -47,21 +49,76 @@ static char get_status_of(char const *this)
     return c;
 }
 
-static char get_status_of_fixed(char const *filename, char const *root)
+static char *get_vector_newpath(char const *root, char const *filename)
 {
     char *str = VEC_NEW(char);
-    char res = '\0';
 
     if (str == NULL)
-        return -1;
+        return NULL;
     (void)vec_pushdata(&str, root, strlen(root));
     (void)vec_pushnum(&str, '/');
     (void)vec_pushdata(&str, filename, strlen(filename));
+    return str;
+}
+
+static char get_status_of_fixed(char const *root, char const *filename)
+{
+    char *str = get_vector_newpath(root, filename);
+    char res = -1;
+
+    if (str == NULL)
+        return -1;
     (void)vec_pushdata(&str, "/status", 7);
     str = vec_todata(str);
     res = get_status_of(str);
     free(str);
     return res;
+}
+
+static unsigned int get_user(char const *root, char const *filename)
+{
+    char *str = get_vector_newpath(root, filename);
+    struct stat st = {0};
+
+    if (str == NULL)
+        return 0;
+    str = vec_todata(str);
+    if (stat(str, &st) == -1) {
+        free(str);
+        return -1;
+    }
+    free(str);
+    return st.st_uid;
+}
+
+static int get_num_at(char const *filename, int n)
+{
+    FILE *file = fopen(filename, "r");
+    size_t size = 0;
+    char *content = NULL;
+
+    if (file == NULL)
+        return -1;
+    while (n)
+        n = ((getdelim(&content, &size, ' ', file) == -1) ? (0) : (n - 1));
+    size = (size_t)atoi(content);
+    free(content);
+    fclose(file);
+    return (int)size;
+}
+
+static int get_priority(char const *root, char const *filename)
+{
+    char *str = get_vector_newpath(root, filename);
+    int num = 0;
+
+    if (str == NULL)
+        return -1;
+    (void)vec_pushdata(&str, "/stat", 5);
+    str = vec_todata(str);
+    num = get_num_at(str, 18);
+    free(str);
+    return num;
 }
 
 static int loop_through_proc(processinfo_t **vecptr)
@@ -76,10 +133,12 @@ static int loop_through_proc(processinfo_t **vecptr)
         if (!is_number(it->d_name))
             continue;
         tmp.pid = atoi(it->d_name);
-        tmp.status = get_status_of_fixed(it->d_name, root);
+        tmp.status = get_status_of_fixed(root, it->d_name);
+        tmp.pwuid = get_user(root, it->d_name);
+        tmp.prio = get_priority(root, it->d_name);
         (void)vec_pushref(vecptr, &tmp);
     }
-    return 0;
+    return closedir(dir);
 }
 
 processinfo_t *top_getprocessinfos(void)

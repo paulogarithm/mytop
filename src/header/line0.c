@@ -60,12 +60,13 @@ static int get_currenttime(char **bufptr)
     return 0;
 }
 
-int header_line0(char const *line, int x)
+int header_line0(char const *line, processinfo_t *vec, int x)
 {
     char *buf = NULL;
     double arr[3] = { 0.0 };
     int nbusers = 0;
 
+    (void)vec;
     if (get_loadavg(arr) == -1 || get_nbusers(&nbusers) == -1
     || get_currenttime(&buf) == -1)
         return -1;

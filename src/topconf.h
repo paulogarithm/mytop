@@ -10,22 +10,32 @@
 
     #include <ncurses.h> /* For mvprintw */
 
-    #define TOP_UPDATE 3000 /* Update time in ms */
+    #define TOP_UPDATE      3000    /* Update time in ms */
+    #define TOP_PROSCLINES     7    /* Process lines start */
 
-int header_line0(char const *line, int x);
-int header_line1(char const *line, int x);
+// Each process information parsed.
+typedef struct {
+    int pid;
+    char status;
+    unsigned int pwuid;
+    int prio;
+} processinfo_t;
+
+int header_line0(char const *line, processinfo_t *vec, int x);
+int header_line1(char const *line, processinfo_t *vec, int x);
 
 /* Default function for header */
-static inline int default_func(char const *line, int x)
+static inline int default_func(char const *line, processinfo_t *vec, int x)
 {
-    mvprintw(x, 0, "%s", line);
+    (void)vec;
+    (void)mvprintw(x, 0, "%s", line);
     return 0;
 }
 
 /* All header functions. */
 static struct {
     char const *s;
-    int (*f)(char const *line, int x);
+    int (*f)(char const *line, processinfo_t *infos, int x);
 } const HEADER_FORMAT[] = {
     {
         "top - %s up %d:%02d, %d user, load average: %.2f, %.2f, %.2f",
@@ -49,12 +59,6 @@ static struct {
         default_func
     },
 };
-
-// Each process information parsed.
-typedef struct {
-    int pid;
-    char status;
-} processinfo_t;
 
 /* How many header lines there is. */
 static int const HEADER_FORMAT_LEN =
